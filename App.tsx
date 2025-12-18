@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Navigator from "@navigations/index";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomStack from "@navigations/BottomStack";
 import { StatusBar } from "react-native";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -10,6 +9,7 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { Provider } from "react-redux";
 import { persistor, store } from "@store/index";
 import { asyncStoragePersister } from "@services/local";
+import MainStack from "@navigations/MainStack";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,7 +57,7 @@ function App(): React.JSX.Element {
                 translucent
                 backgroundColor="transparent"
               />
-              <BottomStack />
+              <MainStack />
             </NavigationContainer>
           </SafeAreaProvider>
         </PersistGate>

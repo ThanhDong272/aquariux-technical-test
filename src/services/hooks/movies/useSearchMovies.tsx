@@ -2,22 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import { MovieService } from "@services/apis/movie";
 import { QUERY_KEYS } from "@constants/queryKeys";
 
-export const useMoviesUpcoming = ({
+export const useMoviesSearch = ({
   page,
-  sortBy,
+  search,
 }: {
   page: number;
-  sortBy: string;
+  search: string;
 }) => {
   const movies = new MovieService();
 
   const { data, status, error, isFetching, refetch, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.MOVIES.UPCOMING, page, sortBy],
+    queryKey: [QUERY_KEYS.MOVIES.SEARCH, page, search],
     queryFn: () =>
-      movies.listMovieUpcoming({
+      movies.searchMovies({
         page: page,
-        sort_by: sortBy,
+        query: search,
       }),
+    enabled: Boolean((search || "").trim().length > 0),
     throwOnError: (error: any, query) => {
       console.log("error", error);
       return false;
