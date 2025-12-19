@@ -8,6 +8,7 @@ import {
 
 export const API_URL = "https://api.themoviedb.org/3"; // API base URL
 export const API_IMAGE_URL = "https://image.tmdb.org/t/p/w500"; // API image base URL
+export const API_AVATAR_URL = "https://www.gravatar.com/avatar"; // API avatar base URL
 const TIMEOUT = 60000; // ms
 
 const mainAxios = axios.create({

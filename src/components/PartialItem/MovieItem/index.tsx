@@ -1,16 +1,23 @@
-import { MovieType } from "@services/apis/movie";
+import { MovieDetailType, MovieType } from "@services/apis/movie";
 import { API_IMAGE_URL } from "@services/client";
 import React from "react";
 import styled from "styled-components/native";
 import dayjs from "dayjs";
 import Navigation from "@navigations/index";
 import ScreenNames from "@navigations/ScreenNames";
+import FontAwesome from "@react-native-vector-icons/fontawesome";
 
 interface Props {
-  item: MovieType;
+  item: MovieType | MovieDetailType;
+  showDeleteIcon?: boolean;
+  onDelete?: (movieId: number) => void;
 }
 
-const MovieItem: React.FC<Props> = ({ item }) => {
+const MovieItem: React.FC<Props> = ({
+  item,
+  showDeleteIcon = false,
+  onDelete,
+}) => {
   return (
     <Container
       onPress={() => {
@@ -23,6 +30,14 @@ const MovieItem: React.FC<Props> = ({ item }) => {
         <TextDate>{dayjs(item?.releaseDate).format("DD MMM YYYY")}</TextDate>
         <TextDescription numberOfLines={2}>{item?.overview}</TextDescription>
       </RightContainer>
+      {showDeleteIcon ? (
+        <DeleteIcon
+          name="close"
+          size={20}
+          color="#000"
+          onPress={() => onDelete && onDelete(item.id)}
+        />
+      ) : null}
     </Container>
   );
 };
@@ -70,6 +85,12 @@ const TextDescription = styled.Text`
   font-size: 14px;
   color: #000000;
   margin-top: 16px;
+`;
+
+const DeleteIcon = styled(FontAwesome)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
 `;
 
 export default MovieItem;

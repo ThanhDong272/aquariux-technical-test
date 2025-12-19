@@ -57,7 +57,6 @@ const MovieDetail: React.FC<Props> = ({ route }) => {
     refetchMoviesRecommendations();
   }, []);
 
-  // Refetch recommendations when page changes (for load-more)
   useEffect(() => {
     if (page > 1) {
       refetchMoviesRecommendations();
