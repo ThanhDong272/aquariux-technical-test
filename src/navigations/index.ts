@@ -10,7 +10,6 @@ import { Platform } from "react-native";
 export const screenOptionsNativeStack: NativeStackNavigationOptions = {
   headerShown: false,
   fullScreenGestureEnabled: true,
-  gestureEnabled: false,
   animationTypeForReplace: "push",
   animation: "slide_from_right",
   presentation: Platform.OS === "android" ? "modal" : undefined,

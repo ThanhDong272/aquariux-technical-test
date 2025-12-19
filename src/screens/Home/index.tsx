@@ -115,13 +115,13 @@ const HomeScreen: React.FC<Props> = () => {
     let currentData: MovieResponse | undefined;
     const hasSearch = (search || "").trim().length > 0;
     if (hasSearch) {
-      currentData = moviesSearch?.data as MovieResponse | undefined;
+      currentData = moviesSearch as MovieResponse | undefined;
     } else if (selectedCategory === "now_playing") {
-      currentData = moviesNowPlaying?.data as MovieResponse | undefined;
+      currentData = moviesNowPlaying as MovieResponse | undefined;
     } else if (selectedCategory === "upcoming") {
-      currentData = moviesUpcoming?.data as MovieResponse | undefined;
+      currentData = moviesUpcoming as MovieResponse | undefined;
     } else if (selectedCategory === "popular") {
-      currentData = moviesPopular?.data as MovieResponse | undefined;
+      currentData = moviesPopular as MovieResponse | undefined;
     }
     if (!currentData) return;
 

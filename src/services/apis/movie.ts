@@ -25,6 +25,81 @@ export type MovieResponse = {
   totalResults: number;
 };
 
+export type MovieDetailType = {
+  adult: boolean;
+  backdropPath: string;
+  belongsToCollection: {
+    backdropPath: string;
+    id: number;
+    name: string;
+    posterPath: string;
+  } | null;
+  budget: number;
+  genres: { id: number; name: string }[];
+  homepage: string;
+  id: number;
+  imdbId: string;
+  originCountry: string[];
+  originalLanguage: string;
+  originalTitle: string;
+  overview: string;
+  popularity: number;
+  posterPath: string;
+  productionCompanies: {
+    id: number;
+    logoPath: string | null;
+    name: string;
+    originCountry: string;
+  }[];
+  productionCountries: { iso31661: string; name: string }[];
+  releaseDate: string;
+  releaseDates: any;
+  revenue: number;
+  runtime: number;
+  spokenLanguages: { iso6391: string; name: string }[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  voteAverage: number;
+  voteCount: number;
+};
+
+export type MovieCast = {
+  adult: boolean;
+  gender: number;
+  id: number;
+  knownForDepartment: string;
+  name: string;
+  originalName: string;
+  popularity: number;
+  profilePath: string | null;
+  castId: number;
+  character: string;
+  creditId: string;
+  order: number;
+};
+
+export type MovieCrew = {
+  adult: boolean;
+  gender: number;
+  id: number;
+  knownForDepartment: string;
+  name: string;
+  originalName: string;
+  popularity: number;
+  profilePath: string | null;
+  creditId: string;
+  department: string;
+  job: string;
+};
+
+export type MovieCreditsResponse = {
+  id: number;
+  cast: MovieCast[];
+  crew: MovieCrew[];
+};
+
 export class MovieService extends CommonService {
   static instance: MovieService;
 
@@ -42,7 +117,7 @@ export class MovieService extends CommonService {
   }: {
     page: number;
     sort_by: string;
-  }): Promise<any> {
+  }): Promise<MovieResponse> {
     const params = {
       page: page,
       language: "en-US",
@@ -56,7 +131,7 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/discover/movie?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
   async listMoviePopular({
@@ -65,7 +140,7 @@ export class MovieService extends CommonService {
   }: {
     page: number;
     sort_by: string;
-  }): Promise<any> {
+  }): Promise<MovieResponse> {
     const params = {
       page: page,
       language: "en-US",
@@ -76,7 +151,7 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/discover/movie?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
   async listMovieUpcoming({
@@ -85,7 +160,7 @@ export class MovieService extends CommonService {
   }: {
     page: number;
     sort_by: string;
-  }): Promise<any> {
+  }): Promise<MovieResponse> {
     const params = {
       page: page,
       language: "en-US",
@@ -99,7 +174,7 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/discover/movie?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
   async searchMovies({
@@ -108,7 +183,7 @@ export class MovieService extends CommonService {
   }: {
     query: string;
     page: number;
-  }): Promise<any> {
+  }): Promise<MovieResponse> {
     const params = {
       query: query,
       page: page,
@@ -118,21 +193,30 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/search/movie?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
-  async movieDetails({ movieId }: { movieId: number }): Promise<any> {
+  async movieDetails({
+    movieId,
+  }: {
+    movieId: number;
+  }): Promise<MovieDetailType> {
     const params = {
       language: "en-US",
+      append_to_response: "release_dates",
     };
 
     const data = await this.get(
       `/movie/${movieId}?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
-  async movieCredits({ movieId }: { movieId: number }): Promise<any> {
+  async movieCredits({
+    movieId,
+  }: {
+    movieId: number;
+  }): Promise<MovieCreditsResponse> {
     const params = {
       language: "en-US",
     };
@@ -140,7 +224,7 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/movie/${movieId}/credits?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 
   async movieRecommendations({
@@ -149,7 +233,7 @@ export class MovieService extends CommonService {
   }: {
     movieId: number;
     page: number;
-  }): Promise<any> {
+  }): Promise<MovieResponse> {
     const params = {
       page: page,
       language: "en-US",
@@ -158,6 +242,6 @@ export class MovieService extends CommonService {
     const data = await this.get(
       `/movie/${movieId}/recommendations?${this.createQueryParams(params)}`
     );
-    return data;
+    return data?.data;
   }
 }
